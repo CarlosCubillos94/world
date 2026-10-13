@@ -12,6 +12,9 @@ import {
 import { zones } from '../../data/content'
 import type { Quality } from '../../lib/quality'
 import { mulberry32 } from '../../lib/random'
+import { bloomField } from './Ground'
+
+const FLOWER_COLORS = ['#e0488a', '#f2c14e', '#7b5ea7', '#fff1d6', '#ff7a3d', '#d94b8a']
 
 function isClear(x: number, z: number) {
   const r = Math.hypot(x, z)
@@ -47,6 +50,12 @@ function useSharedCactusAssets() {
         roughness: 0.85,
         metalness: 0,
       }),
+      bloom: new MeshStandardMaterial({
+        color: '#e0488a',
+        flatShading: true,
+        roughness: 0.55,
+        metalness: 0,
+      }),
     }),
     [],
   )
@@ -59,6 +68,7 @@ function useSharedCactusAssets() {
       assets.greenA.dispose()
       assets.greenB.dispose()
       assets.dark.dispose()
+      assets.bloom.dispose()
     },
     [assets],
   )
@@ -85,6 +95,9 @@ function Cactus({
     <group position={position} scale={scale}>
       <mesh position={[0, 1.15, 0]} castShadow geometry={assets.trunk} material={body} />
       <mesh position={[0, 2.32, 0]} castShadow geometry={assets.cap} material={body} />
+      {rng() > 0.35 && (
+        <mesh position={[0, 2.52, 0]} scale={0.45} castShadow geometry={assets.cap} material={assets.bloom} />
+      )}
       {Array.from({ length: arms }, (_, i) => {
         const side = i % 2 === 0 ? 1 : -1
         const h = 0.55 + rng() * 0.55
@@ -222,7 +235,26 @@ export function Landscape({ quality }: { quality: Quality }) {
         pos: [Math.cos(a) * r, 0.05, Math.sin(a) * r],
         scale: [s, s * (0.22 + rng() * 0.12), s * (0.8 + rng() * 0.4)],
         rot: [0, 0, 0],
-        color: i % 2 === 0 ? '#d4a574' : '#c99563',
+        color: i % 3 === 0 ? '#e3b07a' : i % 3 === 1 ? '#d992b0' : '#e6c56a',
+      })
+    }
+
+    const flowers: BatchItem[] = []
+    guard = 0
+    while (flowers.length < quality.flowerCount && guard < 4000) {
+      guard += 1
+      const x = (rng() - 0.5) * 70
+      const z = (rng() - 0.5) * 70
+      const r = Math.hypot(x, z)
+      if (r < 4.2 || r > 36) continue
+      if (Math.abs(r - 16) < 2.2) continue
+      if (bloomField(x, z) < 0.12 && rng() > 0.2) continue
+      const s = 0.12 + rng() * 0.22
+      flowers.push({
+        pos: [x, s * 0.55, z],
+        scale: [s, s * (1.1 + rng() * 0.8), s],
+        rot: [0, rng() * Math.PI, 0],
+        color: FLOWER_COLORS[Math.floor(rng() * FLOWER_COLORS.length)] ?? '#e0488a',
       })
     }
 
@@ -239,12 +271,13 @@ export function Landscape({ quality }: { quality: Quality }) {
       })
     }
 
-    return { cacti, rocks, dunes, peaks }
-  }, [quality.cactusCount, quality.isMobile, quality.rockCount])
+    return { cacti, rocks, dunes, peaks, flowers }
+  }, [quality.cactusCount, quality.flowerCount, quality.isMobile, quality.rockCount])
 
   const rockGeo = useMemo(() => new DodecahedronGeometry(0.7, 0), [])
   const duneGeo = useMemo(() => new SphereGeometry(1, 7, 5), [])
   const peakGeo = useMemo(() => new ConeGeometry(1, 1, 5), [])
+  const flowerGeo = useMemo(() => new ConeGeometry(0.45, 1, 5), [])
 
   return (
     <group>
@@ -254,6 +287,7 @@ export function Landscape({ quality }: { quality: Quality }) {
       <StaticInstances items={props.rocks} geometry={rockGeo} />
       <StaticInstances items={props.dunes} geometry={duneGeo} />
       <StaticInstances items={props.peaks} geometry={peakGeo} />
+      <StaticInstances items={props.flowers} geometry={flowerGeo} roughness={0.65} />
     </group>
   )
 }

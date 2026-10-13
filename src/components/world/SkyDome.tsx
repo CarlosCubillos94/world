@@ -9,11 +9,11 @@ function makeSkyTexture() {
   if (!ctx) return null
   // CanvasTexture is flipY; sphere v=0 is +Y, so zenith color lives at the bottom.
   const gradient = ctx.createLinearGradient(0, 256, 0, 0)
-  gradient.addColorStop(0, '#1b1030')
-  gradient.addColorStop(0.38, '#6b2d55')
-  gradient.addColorStop(0.55, '#ff6b3d')
-  gradient.addColorStop(0.72, '#ffb068')
-  gradient.addColorStop(1, '#f0c38a')
+  gradient.addColorStop(0, '#241438')
+  gradient.addColorStop(0.34, '#8a3d6e')
+  gradient.addColorStop(0.52, '#ff7b6a')
+  gradient.addColorStop(0.7, '#ffc38a')
+  gradient.addColorStop(1, '#f7e0c4')
   ctx.fillStyle = gradient
   ctx.fillRect(0, 0, 8, 256)
   const texture = new CanvasTexture(canvas)

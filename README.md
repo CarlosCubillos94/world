@@ -1,6 +1,6 @@
 # Carlos Cubillos — Desert world
 
-An interactive 3D portfolio landing page. You drive a small car through a low-poly Atacama / Vallenar landscape and park on stands to read projects, an about note, and contact links. The UI is bilingual: Spanish by default, with an ES/EN toggle (saved in `localStorage`, or `?lang=en`).
+An interactive 3D portfolio landing page. You drive a boxy G-Wagon through a low-poly Desierto Florido — the flowering desert around Vallenar — and park on stands to read projects, an about note, and contact links. The UI is bilingual: Spanish by default, with an ES/EN toggle (saved in `localStorage`, or `?lang=en`).
 
 Inspired by [bruno-simon.com](https://bruno-simon.com/). Built with Vite, React, TypeScript, React Three Fiber, drei, and Rapier physics. Every mesh is procedural low-poly — no paid or copyrighted models.
 

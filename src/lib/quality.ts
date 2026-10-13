@@ -5,6 +5,7 @@ export type Quality = {
   shadows: boolean
   cactusCount: number
   rockCount: number
+  flowerCount: number
   physicsCount: number
   shadowMapSize: number
 }
@@ -29,6 +30,7 @@ export function getQuality(): Quality {
       shadows: true,
       cactusCount: 40,
       rockCount: 18,
+      flowerCount: 420,
       physicsCount: 8,
       shadowMapSize: 1024,
     }
@@ -47,6 +49,7 @@ export function getQuality(): Quality {
     shadows: !isMobile,
     cactusCount: isMobile ? 22 : 42,
     rockCount: isMobile ? 10 : 20,
+    flowerCount: isMobile ? 180 : 460,
     physicsCount: isMobile ? 4 : 8,
     shadowMapSize: isMobile ? 512 : 1024,
   }

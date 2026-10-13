@@ -3,10 +3,10 @@ import type { Quality } from '../../lib/quality'
 export function Lights({ quality }: { quality: Quality }) {
   return (
     <>
-      <color attach="background" args={['#ff8a4c']} />
-      <fog attach="fog" args={['#d9896a', 55, 145]} />
-      <ambientLight intensity={0.28} color="#ffd7b0" />
-      <hemisphereLight args={['#ffb38a', '#6a3e2a', 0.42]} />
+      <color attach="background" args={['#f0a07a']} />
+      <fog attach="fog" args={['#e0a090', 52, 145]} />
+      <ambientLight intensity={0.32} color="#ffd4c4" />
+      <hemisphereLight args={['#ffc3d2', '#8a5a3a', 0.48]} />
       <directionalLight
         position={[-42, 22, -16]}
         intensity={2.15}

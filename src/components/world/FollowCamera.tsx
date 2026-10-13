@@ -32,8 +32,8 @@ export function FollowCamera() {
 
     const yaw = playerPose.angle
     const lookAhead = Math.min(playerPose.speed * 0.32, 2.6)
-    const back = 6.2
-    const height = 2.85
+    const back = 6.5
+    const height = 3.05
     _desired.set(
       _pos.x - Math.sin(yaw) * back,
       Math.max(_pos.y, 0) + height,

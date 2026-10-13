@@ -45,7 +45,7 @@ export default function App() {
         }}
         camera={{ fov: 48, near: 0.1, far: 200, position: [12, 5.2, 12] }}
         onCreated={({ gl }) => {
-          gl.setClearColor('#f0a36b')
+          gl.setClearColor('#f0b080')
         }}
       >
         <Suspense fallback={null}>
