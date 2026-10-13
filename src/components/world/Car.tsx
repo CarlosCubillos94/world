@@ -227,17 +227,28 @@ function GWagonMesh({
         <boxGeometry args={[0.86, 0.26, 0.04]} />
         <meshStandardMaterial color={glass} roughness={0.15} metalness={0.3} />
       </mesh>
-      <mesh position={[0.47, 0.8, -0.08]}>
-        <boxGeometry args={[0.04, 0.24, 0.88]} />
-        <meshStandardMaterial color={glass} roughness={0.15} metalness={0.3} />
+      <mesh position={[0.47, 0.8, -0.02]}>
+        <boxGeometry args={[0.04, 0.22, 0.72]} />
+        <meshStandardMaterial color={glass} roughness={0.22} metalness={0.25} />
       </mesh>
-      <mesh position={[-0.47, 0.8, -0.08]}>
-        <boxGeometry args={[0.04, 0.24, 0.88]} />
-        <meshStandardMaterial color={glass} roughness={0.15} metalness={0.3} />
+      <mesh position={[-0.47, 0.8, -0.02]}>
+        <boxGeometry args={[0.04, 0.22, 0.72]} />
+        <meshStandardMaterial color={glass} roughness={0.22} metalness={0.25} />
       </mesh>
-      <mesh position={[0, 0.8, -0.66]}>
-        <boxGeometry args={[0.7, 0.22, 0.04]} />
-        <meshStandardMaterial color={glass} roughness={0.15} metalness={0.3} />
+      <mesh position={[0, 0.78, -0.69]} castShadow>
+        <boxGeometry args={[0.9, 0.34, 0.05]} />
+        <meshPhysicalMaterial
+          color={paint}
+          flatShading
+          roughness={0.32}
+          metalness={0.18}
+          clearcoat={0.45}
+          clearcoatRoughness={0.3}
+        />
+      </mesh>
+      <mesh position={[0, 0.88, -0.72]}>
+        <boxGeometry args={[0.4, 0.13, 0.03]} />
+        <meshStandardMaterial color="#5c7380" roughness={0.28} metalness={0.35} />
       </mesh>
       <mesh position={[0, 0.38, 0.99]} castShadow>
         <boxGeometry args={[0.78, 0.22, 0.06]} />
