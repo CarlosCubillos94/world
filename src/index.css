@@ -171,7 +171,9 @@ h1 {
 .chip,
 .joystick,
 .postcard-close,
-.postcard-links a {
+.postcard-links a,
+.lang-bar,
+.lang-toggle {
   pointer-events: auto;
 }
 
@@ -206,6 +208,27 @@ h1 {
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 0.45rem;
+}
+
+.lang-bar {
+  position: absolute;
+  top: 1rem;
+  right: 1.1rem;
+  z-index: 6;
+}
+
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.12rem;
+  border-radius: 999px;
+  background: rgba(36, 16, 24, 0.4);
+}
+
+.lang-chip.active {
+  background: var(--paper);
+  color: var(--ink);
 }
 
 .chip {

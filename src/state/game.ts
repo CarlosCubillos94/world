@@ -1,23 +1,31 @@
 import { useSyncExternalStore } from 'react'
 import type { ZoneId } from '../data/content'
+import { copy, type Lang } from '../i18n/copy'
+import { persistLang, readInitialLang } from '../i18n/lang'
 
 export type GameState = {
   entered: boolean
   simple: boolean
   muted: boolean
   webgl: boolean
+  lang: Lang
   activeZone: ZoneId | null
 }
 
 const listeners = new Set<() => void>()
+
+const initialLang = readInitialLang()
 
 let state: GameState = {
   entered: false,
   simple: false,
   muted: true,
   webgl: true,
+  lang: initialLang,
   activeZone: null,
 }
+
+persistLang(initialLang)
 
 function emit() {
   for (const listener of listeners) listener()
@@ -29,6 +37,7 @@ export const gameStore = {
   },
   set(partial: Partial<GameState>) {
     state = { ...state, ...partial }
+    if (partial.lang) persistLang(partial.lang)
     emit()
   },
   subscribe(listener: () => void) {
@@ -37,6 +46,11 @@ export const gameStore = {
       listeners.delete(listener)
     }
   },
+}
+
+export function useUi() {
+  const lang = useGame((s) => s.lang)
+  return copy[lang]
 }
 
 export function useGame<T>(selector: (s: GameState) => T): T {

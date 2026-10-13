@@ -1,7 +1,9 @@
 import { useCallback, useRef } from 'react'
 import { setStick } from '../../lib/input'
+import { useUi } from '../../state/game'
 
 export function Joystick() {
+  const ui = useUi()
   const pad = useRef<HTMLDivElement>(null)
   const knob = useRef<HTMLDivElement>(null)
   const pointer = useRef<number | null>(null)
@@ -50,7 +52,7 @@ export function Joystick() {
       >
         <div ref={knob} className="joystick-knob" />
       </div>
-      <p className="joystick-label">Steer · drive</p>
+      <p className="joystick-label">{ui.steer}</p>
     </div>
   )
 }

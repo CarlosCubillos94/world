@@ -6,7 +6,7 @@ import {
 } from '@react-three/rapier'
 import { zones, type Zone } from '../../data/content'
 import { playChime } from '../../lib/sfx'
-import { gameStore } from '../../state/game'
+import { gameStore, useUi } from '../../state/game'
 
 export function Stands() {
   return (
@@ -19,6 +19,7 @@ export function Stands() {
 }
 
 function Stand({ zone }: { zone: Zone }) {
+  const title = useUi().zones[zone.id].title
   const [x, , z] = zone.position
 
   const enter = (payload: CollisionPayload) => {
@@ -79,7 +80,7 @@ function Stand({ zone }: { zone: Zone }) {
         outlineWidth={0.012}
         outlineColor="#2a1810"
       >
-        {zone.title}
+        {title}
       </Text>
       <Float speed={1.4} rotationIntensity={0.15} floatIntensity={0.35}>
         <group position={[0, 0.95, 0.75]}>{iconFor(zone)}</group>
