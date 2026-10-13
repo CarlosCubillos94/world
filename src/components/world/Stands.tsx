@@ -37,16 +37,14 @@ function Stand({ zone }: { zone: Zone }) {
 
   return (
     <group position={[x, 0, z]} rotation={[0, -zone.angle - Math.PI / 2, 0]}>
-      <RigidBody type="fixed" colliders="cuboid" friction={1.2}>
-        <mesh position={[0, 0.08, 0]} receiveShadow>
-          <cylinderGeometry args={[3.1, 3.3, 0.16, 12]} />
-          <meshStandardMaterial color="#c9a27a" flatShading roughness={1} />
-        </mesh>
-        <mesh position={[0, 0.14, 0]} receiveShadow>
-          <cylinderGeometry args={[2.4, 2.5, 0.08, 12]} />
-          <meshStandardMaterial color="#b08968" flatShading />
-        </mesh>
-      </RigidBody>
+      <mesh position={[0, 0.04, 0]} receiveShadow>
+        <cylinderGeometry args={[3.1, 3.3, 0.08, 12]} />
+        <meshStandardMaterial color="#c9a27a" flatShading roughness={1} />
+      </mesh>
+      <mesh position={[0, 0.08, 0]} receiveShadow>
+        <cylinderGeometry args={[2.4, 2.5, 0.05, 12]} />
+        <meshStandardMaterial color="#b08968" flatShading />
+      </mesh>
 
       <RigidBody type="fixed" colliders="cuboid" position={[-1.15, 1.05, -0.15]}>
         <mesh castShadow>

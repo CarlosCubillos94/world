@@ -15,7 +15,7 @@ export function Experience({ quality }: { quality: Quality }) {
       <SkyDome />
       <Lights quality={quality} />
       <FollowCamera />
-      <Physics gravity={[0, -9.81, 0]} timeStep={1 / 60}>
+      <Physics gravity={[0, -9.81, 0]} timeStep={1 / 60} interpolate>
         <Ground />
         <Bounds />
         <Landscape quality={quality} />

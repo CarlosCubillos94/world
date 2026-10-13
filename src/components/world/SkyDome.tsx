@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { BackSide, CanvasTexture, SRGBColorSpace } from 'three'
 
 function makeSkyTexture() {
@@ -25,8 +25,14 @@ function makeSkyTexture() {
 export function SkyDome() {
   const texture = useMemo(() => makeSkyTexture() ?? undefined, [])
 
+  useEffect(() => {
+    return () => {
+      texture?.dispose()
+    }
+  }, [texture])
+
   return (
-    <mesh>
+    <mesh frustumCulled={false}>
       <sphereGeometry args={[140, 24, 16]} />
       <meshBasicMaterial
         map={texture}

@@ -4,6 +4,8 @@ An interactive 3D portfolio landing page. You drive a small car through a low-po
 
 Inspired by [bruno-simon.com](https://bruno-simon.com/). Built with Vite, React, TypeScript, React Three Fiber, drei, and Rapier physics. Every mesh is procedural low-poly — no paid or copyrighted models.
 
+Renderer follows Three.js defaults: ACES Filmic tone mapping, sRGB output, PCF soft shadows, and a capped device pixel ratio. Desert props (rocks, dunes, peaks) are instanced; Rapier runs a 60Hz step with interpolation so driving stays smooth on 60Hz and 120Hz displays.
+
 Live path after GitHub Pages deploy: `https://<user>.github.io/world/`
 
 ## Run locally

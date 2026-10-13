@@ -1,19 +1,38 @@
-import { CuboidCollider, RigidBody, type RapierRigidBody } from '@react-three/rapier'
+import {
+  CuboidCollider,
+  RigidBody,
+  useBeforePhysicsStep,
+  type RapierRigidBody,
+} from '@react-three/rapier'
 import { useFrame } from '@react-three/fiber'
 import { useRef, type MutableRefObject } from 'react'
-import { Quaternion, Vector3, type Mesh } from 'three'
+import { Group, Quaternion, Vector3, type Mesh } from 'three'
 import { readControls } from '../../lib/input'
 import { setEngineSpeed } from '../../lib/sfx'
 import { gameStore, playerPose } from '../../state/game'
 
-export const playerBody = { current: null as RapierRigidBody | null }
+export const playerVisual = { current: null as Group | null }
 
 const _forward = new Vector3()
 const _quat = new Quaternion()
-const SPAWN = { x: 0, y: 0.42, z: 0 }
+const _worldPos = new Vector3()
+const SPAWN = { x: 0, y: 0.28, z: 0 }
+const STEP = 1 / 60
+const MAX_SPEED = 10.5
+const ACCEL = 16
+const BRAKE = 24
+const DRAG = 7
+const STEER = 2.35
+
+function approach(current: number, target: number, maxDelta: number) {
+  const delta = target - current
+  if (Math.abs(delta) <= maxDelta) return target
+  return current + Math.sign(delta) * maxDelta
+}
 
 export function Car() {
   const body = useRef<RapierRigidBody>(null)
+  const visual = useRef<Group>(null)
   const wheels = useRef<[Mesh | null, Mesh | null, Mesh | null, Mesh | null]>([
     null,
     null,
@@ -23,50 +42,59 @@ export function Car() {
   const spin = useRef(0)
   const holdRespawn = useRef(false)
 
-  useFrame((_, dt) => {
+  useBeforePhysicsStep(() => {
     const rb = body.current
     if (!rb) return
-    playerBody.current = rb
 
     const controls = readControls()
+    if (controls.respawn && !holdRespawn.current) respawn(rb)
+    holdRespawn.current = controls.respawn
+
     const rot = rb.rotation()
     _quat.set(rot.x, rot.y, rot.z, rot.w)
     _forward.set(0, 0, 1).applyQuaternion(_quat)
 
     const vel = rb.linvel()
-    const speed = Math.hypot(vel.x, vel.z)
-    const clamped = Math.min(dt, 0.05)
-
-    if (Math.abs(controls.forward) > 0.05 && speed < 13) {
-      const force = 52 * controls.forward * clamped
-      rb.applyImpulse(
-        { x: _forward.x * force, y: 0, z: _forward.z * force },
-        true,
-      )
-    }
-
-    if (Math.abs(controls.turn) > 0.05) {
-      const yaw = 16 * controls.turn * clamped * (0.35 + Math.min(speed / 8, 1))
-      rb.applyTorqueImpulse({ x: 0, y: yaw, z: 0 }, true)
-    }
+    let along = vel.x * _forward.x + vel.z * _forward.z
 
     if (controls.brake) {
-      rb.setLinvel({ x: vel.x * 0.9, y: vel.y, z: vel.z * 0.9 }, true)
+      along = approach(along, 0, BRAKE * STEP)
+    } else if (Math.abs(controls.forward) > 0.04) {
+      along = approach(along, controls.forward * MAX_SPEED, ACCEL * STEP)
+    } else {
+      along = approach(along, 0, DRAG * STEP)
     }
+
+    rb.setLinvel(
+      { x: _forward.x * along, y: vel.y, z: _forward.z * along },
+      true,
+    )
+
+    const speedFactor = Math.min(Math.abs(along) / 2.8, 1)
+    const steer = along < -0.35 ? -controls.turn : controls.turn
+    rb.setAngvel({ x: 0, y: steer * STEER * (0.22 + 0.78 * speedFactor), z: 0 }, true)
 
     const pos = rb.translation()
-    if (pos.y < 0.3 || pos.y > 1.2) {
-      rb.setTranslation({ x: pos.x, y: SPAWN.y, z: pos.z }, true)
-      rb.setLinvel({ x: vel.x, y: 0, z: vel.z }, true)
-    }
-    const shouldRespawn = controls.respawn
-    if (shouldRespawn && !holdRespawn.current) {
-      respawn(rb)
-    }
-    holdRespawn.current = controls.respawn
+    if (pos.y < -3) respawn(rb)
+  })
 
-    spin.current += speed * clamped * (controls.forward < -0.05 ? -1 : 1) * 2.4
-    const steer = controls.turn * 0.45
+  useFrame((_, dt) => {
+    const rb = body.current
+    const vis = visual.current
+    if (!rb || !vis) return
+    playerVisual.current = vis
+
+    vis.getWorldPosition(_worldPos)
+    vis.getWorldQuaternion(_quat)
+    _forward.set(0, 0, 1).applyQuaternion(_quat)
+
+    const vel = rb.linvel()
+    const speed = Math.hypot(vel.x, vel.z)
+    const clamped = Math.min(dt, 0.05)
+    const controls = readControls()
+
+    spin.current += speed * clamped * (controls.forward < -0.05 ? -1 : 1) * 2.6
+    const steer = controls.turn * 0.42
     const w = wheels.current
     if (w[0]) {
       w[0].rotation.y = steer
@@ -79,9 +107,9 @@ export function Car() {
     if (w[2]) w[2].rotation.x = spin.current
     if (w[3]) w[3].rotation.x = spin.current
 
-    playerPose.x = pos.x
-    playerPose.y = pos.y
-    playerPose.z = pos.z
+    playerPose.x = _worldPos.x
+    playerPose.y = _worldPos.y
+    playerPose.z = _worldPos.z
     playerPose.angle = Math.atan2(_forward.x, _forward.z)
     playerPose.speed = speed
 
@@ -90,24 +118,24 @@ export function Car() {
 
   return (
     <RigidBody
-      ref={body}
       name="player"
+      ref={body}
       colliders={false}
       position={[SPAWN.x, SPAWN.y, SPAWN.z]}
       rotation={[0, Math.PI / 2, 0]}
-      mass={14}
-      linearDamping={1.35}
-      angularDamping={3.4}
+      mass={8}
+      linearDamping={0.35}
+      angularDamping={2.2}
       enabledRotations={[false, true, false]}
-      enabledTranslations={[true, false, true]}
-      gravityScale={0}
       canSleep={false}
       ccd
-      friction={0.9}
-      restitution={0.05}
+      friction={0.95}
+      restitution={0}
     >
-      <CuboidCollider args={[0.48, 0.28, 0.92]} position={[0, 0.18, 0]} />
-      <CarMesh wheels={wheels} />
+      <CuboidCollider args={[0.42, 0.16, 0.82]} position={[0, 0.16, 0]} />
+      <group ref={visual}>
+        <CarMesh wheels={wheels} />
+      </group>
     </RigidBody>
   )
 }
@@ -133,46 +161,53 @@ function CarMesh({
       ref={(node) => {
         wheels.current[index] = node
       }}
-      position={[x, 0.18, z]}
+      position={[x, 0.2, z]}
       rotation={[0, 0, Math.PI / 2]}
       castShadow
     >
-      <cylinderGeometry args={[0.22, 0.22, 0.16, 8]} />
+      <cylinderGeometry args={[0.2, 0.2, 0.16, 8]} />
       <meshStandardMaterial color="#2b2118" flatShading roughness={0.7} />
     </mesh>
   )
 
   return (
     <group>
-      <mesh position={[0, 0.32, 0]} castShadow>
+      <mesh position={[0, 0.3, 0]} castShadow>
         <boxGeometry args={[0.9, 0.28, 1.55]} />
-        <meshStandardMaterial color="#e85d04" flatShading roughness={0.45} />
+        <meshPhysicalMaterial
+          color="#e85d04"
+          flatShading
+          roughness={0.38}
+          metalness={0.12}
+          clearcoat={0.4}
+          clearcoatRoughness={0.35}
+        />
       </mesh>
-      <mesh position={[0, 0.5, -0.12]} castShadow>
+      <mesh position={[0, 0.48, -0.12]} castShadow>
         <boxGeometry args={[0.78, 0.22, 0.7]} />
         <meshStandardMaterial color="#fff6ea" flatShading />
       </mesh>
-      <mesh position={[0, 0.62, -0.08]} castShadow>
+      <mesh position={[0, 0.6, -0.08]} castShadow>
         <boxGeometry args={[0.82, 0.08, 0.78]} />
         <meshStandardMaterial color="#2a1810" flatShading />
       </mesh>
-      <mesh position={[0, 0.38, 0.78]} castShadow>
+      <mesh position={[0, 0.36, 0.78]} castShadow>
         <boxGeometry args={[0.86, 0.16, 0.22]} />
         <meshStandardMaterial color="#c44103" flatShading />
       </mesh>
-      <mesh position={[0.28, 0.38, 0.9]}>
+      <mesh position={[0.28, 0.36, 0.9]}>
         <boxGeometry args={[0.14, 0.08, 0.06]} />
         <meshStandardMaterial color="#ffe08a" emissive="#ffb703" emissiveIntensity={0.6} />
       </mesh>
-      <mesh position={[-0.28, 0.38, 0.9]}>
+      <mesh position={[-0.28, 0.36, 0.9]}>
         <boxGeometry args={[0.14, 0.08, 0.06]} />
         <meshStandardMaterial color="#ffe08a" emissive="#ffb703" emissiveIntensity={0.6} />
       </mesh>
-      <mesh position={[0, 0.48, -0.82]} castShadow>
+      <mesh position={[0, 0.46, -0.82]} castShadow>
         <torusGeometry args={[0.16, 0.05, 6, 10]} />
         <meshStandardMaterial color="#2b2118" flatShading />
       </mesh>
-      <mesh position={[0, 0.28, -0.95]} castShadow>
+      <mesh position={[0, 0.26, -0.95]} castShadow>
         <boxGeometry args={[0.7, 0.08, 0.08]} />
         <meshStandardMaterial color="#5c4033" />
       </mesh>

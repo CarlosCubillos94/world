@@ -1,5 +1,6 @@
 import { Canvas } from '@react-three/fiber'
 import { Suspense, useEffect, useMemo } from 'react'
+import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { Experience } from './components/world/Experience'
 import { Hud } from './components/ui/Hud'
 import { LoadingScreen } from './components/ui/LoadingScreen'
@@ -29,13 +30,18 @@ export default function App() {
   return (
     <div className="app">
       <Canvas
+        frameloop="always"
         dpr={quality.dpr}
-        shadows={quality.shadows}
+        shadows={quality.shadows ? 'soft' : false}
         gl={{
           antialias: !quality.isMobile,
           powerPreference: 'high-performance',
           stencil: false,
           alpha: false,
+          preserveDrawingBuffer: true,
+          toneMapping: ACESFilmicToneMapping,
+          toneMappingExposure: 1.08,
+          outputColorSpace: SRGBColorSpace,
         }}
         camera={{ fov: 48, near: 0.1, far: 200, position: [12, 5.2, 12] }}
         onCreated={({ gl }) => {

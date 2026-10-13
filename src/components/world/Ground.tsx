@@ -39,17 +39,17 @@ export function Ground() {
 
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]} receiveShadow>
         <ringGeometry args={[14.2, 17.8, 64]} />
-        <meshStandardMaterial color="#c48a58" roughness={1} />
+        <meshStandardMaterial color="#c48a58" roughness={1} metalness={0} />
       </mesh>
 
       <group position={[0, 0.03, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <mesh>
           <ringGeometry args={[2.15, 2.4, 32]} />
-          <meshStandardMaterial color="#b67a4c" roughness={1} />
+          <meshStandardMaterial color="#b67a4c" roughness={1} metalness={0} />
         </mesh>
         <mesh>
           <circleGeometry args={[0.28, 12]} />
-          <meshStandardMaterial color="#a86b40" />
+          <meshStandardMaterial color="#a86b40" roughness={1} metalness={0} />
         </mesh>
       </group>
     </>

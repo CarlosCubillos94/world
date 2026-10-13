@@ -8,19 +8,20 @@ export function Lights({ quality }: { quality: Quality }) {
       <ambientLight intensity={0.28} color="#ffd7b0" />
       <hemisphereLight args={['#ffb38a', '#6a3e2a', 0.42]} />
       <directionalLight
-        position={[-48, 16, -18]}
-        intensity={2.05}
+        position={[-42, 22, -16]}
+        intensity={2.15}
         color="#ffb070"
         castShadow={quality.shadows}
         shadow-mapSize-width={quality.shadowMapSize}
         shadow-mapSize-height={quality.shadowMapSize}
-        shadow-camera-near={2}
-        shadow-camera-far={110}
-        shadow-camera-left={-36}
-        shadow-camera-right={36}
-        shadow-camera-top={36}
-        shadow-camera-bottom={-36}
-        shadow-bias={-0.0008}
+        shadow-camera-near={4}
+        shadow-camera-far={80}
+        shadow-camera-left={-30}
+        shadow-camera-right={30}
+        shadow-camera-top={30}
+        shadow-camera-bottom={-30}
+        shadow-bias={-0.0006}
+        shadow-normalBias={0.04}
       />
       <directionalLight position={[20, 10, 30]} intensity={0.22} color="#6a4c93" />
       <mesh position={[-52, 14, -16]}>
