@@ -1,4 +1,4 @@
-import { RigidBody } from '@react-three/rapier'
+import { CuboidCollider, RigidBody } from '@react-three/rapier'
 import { useMemo } from 'react'
 import { Color, Float32BufferAttribute } from 'three'
 import { mulberry32 } from '../../lib/random'
@@ -23,11 +23,8 @@ export function Ground() {
 
   return (
     <>
-      <RigidBody type="fixed" colliders="cuboid" position={[0, -1, 0]} friction={1.6} restitution={0}>
-        <mesh visible={false}>
-          <boxGeometry args={[160, 2, 160]} />
-          <meshBasicMaterial />
-        </mesh>
+      <RigidBody type="fixed" colliders={false} friction={1.8} restitution={0}>
+        <CuboidCollider args={[80, 2, 80]} position={[0, -2, 0]} />
       </RigidBody>
       <mesh
         rotation={[-Math.PI / 2, 0, 0]}
@@ -73,11 +70,8 @@ export function Bounds() {
   return (
     <>
       {walls.map(([x, y, z, w, h, d], i) => (
-        <RigidBody key={i} type="fixed" position={[x, y, z]} colliders="cuboid">
-          <mesh visible={false}>
-            <boxGeometry args={[w, h, d]} />
-            <meshBasicMaterial />
-          </mesh>
+        <RigidBody key={i} type="fixed" position={[x, y, z]} colliders={false}>
+          <CuboidCollider args={[w / 2, h / 2, d / 2]} />
         </RigidBody>
       ))}
     </>

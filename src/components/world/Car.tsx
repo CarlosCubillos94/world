@@ -10,7 +10,7 @@ export const playerBody = { current: null as RapierRigidBody | null }
 
 const _forward = new Vector3()
 const _quat = new Quaternion()
-const SPAWN = { x: 0, y: 0.85, z: 0 }
+const SPAWN = { x: 0, y: 0.42, z: 0 }
 
 export function Car() {
   const body = useRef<RapierRigidBody>(null)
@@ -55,7 +55,11 @@ export function Car() {
     }
 
     const pos = rb.translation()
-    const shouldRespawn = controls.respawn || pos.y < -4
+    if (pos.y < 0.3 || pos.y > 1.2) {
+      rb.setTranslation({ x: pos.x, y: SPAWN.y, z: pos.z }, true)
+      rb.setLinvel({ x: vel.x, y: 0, z: vel.z }, true)
+    }
+    const shouldRespawn = controls.respawn
     if (shouldRespawn && !holdRespawn.current) {
       respawn(rb)
     }
@@ -95,6 +99,8 @@ export function Car() {
       linearDamping={1.35}
       angularDamping={3.4}
       enabledRotations={[false, true, false]}
+      enabledTranslations={[true, false, true]}
+      gravityScale={0}
       canSleep={false}
       ccd
       friction={0.9}

@@ -54,3 +54,13 @@ export const playerPose = {
   angle: -Math.PI / 2,
   speed: 0,
 }
+
+declare global {
+  interface Window {
+    __carPose?: typeof playerPose
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.__carPose = playerPose
+}
