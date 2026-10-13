@@ -23,6 +23,9 @@ export default function App() {
     if (params.get('simple') === '1' || !webgl) {
       gameStore.set({ simple: true })
     }
+    if (params.get('enter') === '1' && webgl) {
+      gameStore.set({ entered: true, muted: true })
+    }
   }, [])
 
   if (simple) return <SimpleView />

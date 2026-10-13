@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import {
+  BufferGeometry,
   Color,
   ConeGeometry,
   CylinderGeometry,
@@ -9,6 +10,7 @@ import {
   Object3D,
   SphereGeometry,
 } from 'three'
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js'
 import { zones } from '../../data/content'
 import type { Quality } from '../../lib/quality'
 import { mulberry32 } from '../../lib/random'
@@ -132,13 +134,46 @@ type BatchItem = {
   color: string
 }
 
+function makeFlowerHead() {
+  const petal = new SphereGeometry(0.42, 7, 5)
+  petal.scale(0.5, 0.14, 1.08)
+  petal.translate(0, 0, 0.38)
+  const parts: BufferGeometry[] = []
+  for (let i = 0; i < 5; i++) {
+    const g = petal.clone()
+    const a = (i / 5) * Math.PI * 2
+    g.rotateY(a)
+    g.rotateX(-0.32)
+    parts.push(g)
+  }
+  const merged = mergeGeometries(parts, false)
+  petal.dispose()
+  for (const part of parts) part.dispose()
+  if (!merged) return new SphereGeometry(0.35, 6, 4)
+  merged.computeVertexNormals()
+  return merged
+}
+
+function makeFlowerCenter() {
+  const center = new SphereGeometry(0.17, 7, 5)
+  center.scale(1, 0.42, 1)
+  center.translate(0, 0.09, 0)
+  return center
+}
+
+function makeFlowerStem() {
+  const stem = new CylinderGeometry(0.028, 0.04, 0.5, 5)
+  stem.translate(0, 0.25, 0)
+  return stem
+}
+
 function StaticInstances({
   items,
   geometry,
   roughness = 1,
 }: {
   items: BatchItem[]
-  geometry: SphereGeometry | DodecahedronGeometry | ConeGeometry
+  geometry: BufferGeometry
   roughness?: number
 }) {
   const mesh = useRef<InstancedMesh>(null)
@@ -240,6 +275,8 @@ export function Landscape({ quality }: { quality: Quality }) {
     }
 
     const flowers: BatchItem[] = []
+    const centers: BatchItem[] = []
+    const stems: BatchItem[] = []
     guard = 0
     while (flowers.length < quality.flowerCount && guard < 4000) {
       guard += 1
@@ -249,13 +286,32 @@ export function Landscape({ quality }: { quality: Quality }) {
       if (r < 4.2 || r > 36) continue
       if (Math.abs(r - 16) < 2.2) continue
       if (bloomField(x, z) < 0.12 && rng() > 0.2) continue
-      const s = 0.12 + rng() * 0.22
+      const s = 0.42 + rng() * 0.46
+      const tall = rng() > 0.62
+      const color = FLOWER_COLORS[Math.floor(rng() * FLOWER_COLORS.length)] ?? '#e0488a'
+      const yaw = rng() * Math.PI * 2
+      const tilt = (rng() - 0.5) * 0.22
+      const y = tall ? 0.5 * s + 0.04 : 0.07
       flowers.push({
-        pos: [x, s * 0.55, z],
-        scale: [s, s * (1.1 + rng() * 0.8), s],
-        rot: [0, rng() * Math.PI, 0],
-        color: FLOWER_COLORS[Math.floor(rng() * FLOWER_COLORS.length)] ?? '#e0488a',
+        pos: [x, y, z],
+        scale: [s, s, s],
+        rot: [tilt, yaw, 0],
+        color,
       })
+      centers.push({
+        pos: [x, y, z],
+        scale: [s, s, s],
+        rot: [tilt, yaw, 0],
+        color: rng() > 0.35 ? '#f4d35e' : '#fff4c4',
+      })
+      if (tall) {
+        stems.push({
+          pos: [x, 0, z],
+          scale: [s, s * (0.95 + rng() * 0.2), s],
+          rot: [0, yaw, 0],
+          color: '#3d6b3a',
+        })
+      }
     }
 
     const peaks: BatchItem[] = []
@@ -271,13 +327,15 @@ export function Landscape({ quality }: { quality: Quality }) {
       })
     }
 
-    return { cacti, rocks, dunes, peaks, flowers }
+    return { cacti, rocks, dunes, peaks, flowers, centers, stems }
   }, [quality.cactusCount, quality.flowerCount, quality.isMobile, quality.rockCount])
 
   const rockGeo = useMemo(() => new DodecahedronGeometry(0.7, 0), [])
   const duneGeo = useMemo(() => new SphereGeometry(1, 7, 5), [])
   const peakGeo = useMemo(() => new ConeGeometry(1, 1, 5), [])
-  const flowerGeo = useMemo(() => new ConeGeometry(0.45, 1, 5), [])
+  const flowerGeo = useMemo(() => makeFlowerHead(), [])
+  const centerGeo = useMemo(() => makeFlowerCenter(), [])
+  const stemGeo = useMemo(() => makeFlowerStem(), [])
 
   return (
     <group>
@@ -287,7 +345,9 @@ export function Landscape({ quality }: { quality: Quality }) {
       <StaticInstances items={props.rocks} geometry={rockGeo} />
       <StaticInstances items={props.dunes} geometry={duneGeo} />
       <StaticInstances items={props.peaks} geometry={peakGeo} />
-      <StaticInstances items={props.flowers} geometry={flowerGeo} roughness={0.65} />
+      <StaticInstances items={props.stems} geometry={stemGeo} roughness={0.85} />
+      <StaticInstances items={props.flowers} geometry={flowerGeo} roughness={0.52} />
+      <StaticInstances items={props.centers} geometry={centerGeo} roughness={0.4} />
     </group>
   )
 }
