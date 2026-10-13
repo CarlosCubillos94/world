@@ -12,6 +12,7 @@ const _pos = new Vector3()
 export function FollowCamera() {
   const entered = useGame((s) => s.entered)
   const ready = useRef(false)
+  const yawSmooth = useRef(0)
 
   useFrame((state, dt) => {
     if (!entered) {
@@ -30,7 +31,13 @@ export function FollowCamera() {
     if (vis) vis.getWorldPosition(_pos)
     else _pos.set(playerPose.x, playerPose.y, playerPose.z)
 
-    const yaw = playerPose.angle
+    let yawDelta = playerPose.angle - yawSmooth.current
+    while (yawDelta > Math.PI) yawDelta -= Math.PI * 2
+    while (yawDelta < -Math.PI) yawDelta += Math.PI * 2
+    const follow = 1 - Math.exp(-8 * dt)
+    if (!ready.current) yawSmooth.current = playerPose.angle
+    else yawSmooth.current += yawDelta * follow
+    const yaw = yawSmooth.current
     const lookAhead = Math.min(playerPose.speed * 0.32, 2.6)
     const back = 6.2
     const height = 2.85
@@ -45,7 +52,6 @@ export function FollowCamera() {
       _pos.z + Math.cos(yaw) * lookAhead,
     )
 
-    const follow = 1 - Math.exp(-8 * dt)
     if (!ready.current) {
       state.camera.position.copy(_desired)
       _lookSmooth.copy(_look)
