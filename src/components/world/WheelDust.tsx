@@ -11,13 +11,11 @@ import type { Quality } from '../../lib/quality'
 import { gameStore, playerPose } from '../../state/game'
 
 const WHEELS: [number, number][] = [
-  [0.48, 0.56],
-  [-0.48, 0.56],
   [0.48, -0.58],
   [-0.48, -0.58],
 ]
 
-const SAND = ['#c4a06a', '#a87848', '#d4b07a', '#8f5e38']
+const SAND = ['#e6c49a', '#d8b88a', '#ecd2b0', '#c9a87a']
 
 type Particle = {
   x: number
@@ -48,7 +46,7 @@ function makePool(count: number): Particle[] {
 }
 
 export function WheelDust({ quality }: { quality: Quality }) {
-  const count = quality.isMobile ? 72 : 140
+  const count = quality.isMobile ? 28 : 48
   const mesh = useRef<InstancedMesh>(null)
   const cursor = useRef(0)
   const emit = useRef(0)
@@ -59,7 +57,7 @@ export function WheelDust({ quality }: { quality: Quality }) {
     () =>
       new MeshStandardMaterial({
         transparent: true,
-        opacity: 0.7,
+        opacity: 0.22,
         roughness: 1,
         metalness: 0,
         depthWrite: false,
@@ -71,7 +69,7 @@ export function WheelDust({ quality }: { quality: Quality }) {
   useLayoutEffect(() => {
     const inst = mesh.current
     if (!inst) return
-    const boot = new Color('#a87848')
+    const boot = new Color('#e6c49a')
     for (let i = 0; i < count; i++) inst.setColorAt(i, boot)
     if (inst.instanceColor) inst.instanceColor.needsUpdate = true
   }, [count])
@@ -96,25 +94,25 @@ export function WheelDust({ quality }: { quality: Quality }) {
     const cos = Math.cos(yaw)
     const sin = Math.sin(yaw)
 
-    if (entered && speed > 0.9) {
-      emit.current += clamped * (6 + speed * 11)
+    if (entered && speed > 2.2) {
+      emit.current += clamped * (1.1 + speed * 2.4)
       while (emit.current >= 1) {
         emit.current -= 1
-        const [lx, lz] = WHEELS[cursor.current % WHEELS.length] ?? [0.48, 0.56]
+        const [lx, lz] = WHEELS[cursor.current % WHEELS.length] ?? [0.48, -0.58]
         cursor.current += 1
         const p = particles[cursor.current % particles.length]
         if (!p) continue
-        const side = (Math.random() - 0.5) * 0.22
+        const side = (Math.random() - 0.5) * 0.12
         p.x = playerPose.x + lx * cos + lz * sin + side * fz
-        p.y = 0.04 + Math.random() * 0.08
+        p.y = 0.03 + Math.random() * 0.04
         p.z = playerPose.z - lx * sin + lz * cos - side * fx
-        p.vx = -fx * (1.1 + Math.random() * 1.8) + (Math.random() - 0.5) * 1.3
-        p.vy = 1.15 + Math.random() * 2.1
-        p.vz = -fz * (1.1 + Math.random() * 1.8) + (Math.random() - 0.5) * 1.3
-        p.maxLife = 0.55 + Math.random() * 0.75
+        p.vx = -fx * (0.5 + Math.random() * 0.8) + (Math.random() - 0.5) * 0.45
+        p.vy = 0.35 + Math.random() * 0.55
+        p.vz = -fz * (0.5 + Math.random() * 0.8) + (Math.random() - 0.5) * 0.45
+        p.maxLife = 0.28 + Math.random() * 0.32
         p.life = p.maxLife
-        p.size = 0.14 + Math.random() * 0.28 * Math.min(speed / 7, 1.2)
-        p.color.set(SAND[Math.floor(Math.random() * SAND.length)] ?? '#d2a06a')
+        p.size = 0.05 + Math.random() * 0.09 * Math.min(speed / 9, 1)
+        p.color.set(SAND[Math.floor(Math.random() * SAND.length)] ?? '#e6c49a')
       }
     } else {
       emit.current = 0
@@ -134,13 +132,13 @@ export function WheelDust({ quality }: { quality: Quality }) {
       p.x += p.vx * clamped
       p.y += p.vy * clamped
       p.z += p.vz * clamped
-      p.vy -= 0.85 * clamped
-      p.vx *= 1 - 1.15 * clamped
-      p.vz *= 1 - 1.15 * clamped
+      p.vy -= 1.4 * clamped
+      p.vx *= 1 - 2.2 * clamped
+      p.vz *= 1 - 2.2 * clamped
       const t = Math.max(p.life / p.maxLife, 0)
-      const puff = 0.45 + 0.8 * Math.sin(t * Math.PI)
-      dummy.position.set(p.x, Math.max(p.y, 0.04), p.z)
-      dummy.scale.set(p.size * (1 + puff * 0.55), p.size * puff * 0.75, p.size * (1 + puff * 0.55))
+      const puff = 0.25 + 0.55 * Math.sin(t * Math.PI)
+      dummy.position.set(p.x, Math.max(p.y, 0.03), p.z)
+      dummy.scale.set(p.size * (0.85 + puff * 0.4), p.size * puff * 0.55, p.size * (0.85 + puff * 0.4))
       dummy.updateMatrix()
       inst.setMatrixAt(i, dummy.matrix)
       inst.setColorAt(i, p.color)
