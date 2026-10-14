@@ -192,7 +192,7 @@ export const zones: Zone[] = [
       },
       {
         id: 'cv',
-        href: '#cv-placeholder',
+        href: `${import.meta.env.BASE_URL}CV_Carlos_Cubillos_EN.pdf`,
       },
     ],
     accent: '#1d3557',

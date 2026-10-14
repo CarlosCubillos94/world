@@ -156,7 +156,7 @@ export const copy: Record<Lang, UiCopy> = {
         title: 'Contacto',
         kicker: 'Hablemos',
         description:
-          'Abierto a roles remotos y contratos con equipos de cualquier país. Pasa en auto o usa los enlaces: GitHub, el portafolio clásico y un espacio listo para el CV.',
+          'Abierto a roles remotos y contratos con equipos de cualquier país. Pasa en auto o usa los enlaces: GitHub, el portafolio clásico y tu CV.',
         linkLabels: {
           github: 'GitHub',
           portfolio: 'Portafolio',
