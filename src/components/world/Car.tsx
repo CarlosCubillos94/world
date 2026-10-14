@@ -154,7 +154,6 @@ function GWagonMesh({
 }) {
   const paint = '#c4b396'
   const trim = '#d7dbe2'
-  const glass = '#3a4a55'
   const rubber = '#1a1614'
   const dark = '#2a2c31'
 
@@ -200,8 +199,8 @@ function GWagonMesh({
           clearcoatRoughness={0.28}
         />
       </mesh>
-      <mesh position={[0, 0.78, -0.12]} castShadow>
-        <boxGeometry args={[0.92, 0.34, 1.12]} />
+      <mesh position={[0, 0.78, -0.16]} castShadow>
+        <boxGeometry args={[0.92, 0.34, 1.04]} />
         <meshPhysicalMaterial
           color={paint}
           flatShading
@@ -223,17 +222,67 @@ function GWagonMesh({
         <boxGeometry args={[0.08, 0.08, 0.9]} />
         <meshStandardMaterial color={dark} />
       </mesh>
-      <mesh position={[0, 0.8, 0.42]}>
-        <boxGeometry args={[0.86, 0.26, 0.04]} />
-        <meshStandardMaterial color={glass} roughness={0.15} metalness={0.3} />
+      <mesh position={[0.4, 0.8, 0.41]} rotation={[0, 0.08, 0]} castShadow>
+        <boxGeometry args={[0.1, 0.3, 0.1]} />
+        <meshPhysicalMaterial
+          color={paint}
+          flatShading
+          roughness={0.32}
+          metalness={0.18}
+          clearcoat={0.45}
+          clearcoatRoughness={0.3}
+        />
+      </mesh>
+      <mesh position={[-0.4, 0.8, 0.41]} rotation={[0, -0.08, 0]} castShadow>
+        <boxGeometry args={[0.1, 0.3, 0.1]} />
+        <meshPhysicalMaterial
+          color={paint}
+          flatShading
+          roughness={0.32}
+          metalness={0.18}
+          clearcoat={0.45}
+          clearcoatRoughness={0.3}
+        />
+      </mesh>
+      <mesh position={[0, 0.94, 0.42]} castShadow>
+        <boxGeometry args={[0.78, 0.06, 0.08]} />
+        <meshPhysicalMaterial
+          color={paint}
+          flatShading
+          roughness={0.32}
+          metalness={0.18}
+          clearcoat={0.45}
+          clearcoatRoughness={0.3}
+        />
+      </mesh>
+      <mesh position={[0, 0.66, 0.43]} castShadow>
+        <boxGeometry args={[0.72, 0.05, 0.07]} />
+        <meshPhysicalMaterial
+          color={paint}
+          flatShading
+          roughness={0.32}
+          metalness={0.18}
+          clearcoat={0.45}
+          clearcoatRoughness={0.3}
+        />
+      </mesh>
+      <mesh position={[0, 0.81, 0.445]} rotation={[-0.16, 0, 0]}>
+        <boxGeometry args={[0.56, 0.16, 0.02]} />
+        <meshPhysicalMaterial
+          color="#8aa3ae"
+          roughness={0.1}
+          metalness={0.2}
+          clearcoat={0.65}
+          clearcoatRoughness={0.18}
+        />
       </mesh>
       <mesh position={[0.47, 0.8, -0.02]}>
-        <boxGeometry args={[0.04, 0.22, 0.72]} />
-        <meshStandardMaterial color={glass} roughness={0.22} metalness={0.25} />
+        <boxGeometry args={[0.03, 0.18, 0.62]} />
+        <meshPhysicalMaterial color="#8aa3ae" roughness={0.12} metalness={0.2} />
       </mesh>
       <mesh position={[-0.47, 0.8, -0.02]}>
-        <boxGeometry args={[0.04, 0.22, 0.72]} />
-        <meshStandardMaterial color={glass} roughness={0.22} metalness={0.25} />
+        <boxGeometry args={[0.03, 0.18, 0.62]} />
+        <meshPhysicalMaterial color="#8aa3ae" roughness={0.12} metalness={0.2} />
       </mesh>
       <mesh position={[0, 0.78, -0.69]} castShadow>
         <boxGeometry args={[0.9, 0.34, 0.05]} />

@@ -9,11 +9,29 @@ const _look = new Vector3()
 const _lookSmooth = new Vector3()
 const _pos = new Vector3()
 
+const frontView =
+  typeof window !== 'undefined' &&
+  new URLSearchParams(window.location.search).get('front') === '1'
+
 export function FollowCamera() {
   const entered = useGame((s) => s.entered)
   const ready = useRef(false)
 
   useFrame((state, dt) => {
+    if (frontView && entered) {
+      const vis = playerVisual.current
+      if (vis) vis.getWorldPosition(_pos)
+      else _pos.set(playerPose.x, playerPose.y, playerPose.z)
+      const yaw = playerPose.angle
+      state.camera.position.set(
+        _pos.x + Math.sin(yaw) * 3.4,
+        Math.max(_pos.y, 0) + 1.35,
+        _pos.z + Math.cos(yaw) * 3.4,
+      )
+      state.camera.lookAt(_pos.x, _pos.y + 0.55, _pos.z)
+      return
+    }
+
     if (!entered) {
       const t = state.clock.elapsedTime
       state.camera.position.set(

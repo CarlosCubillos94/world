@@ -8,6 +8,7 @@ import { SkyDome } from './SkyDome'
 import { Stands } from './Stands'
 import { Car } from './Car'
 import { FollowCamera } from './FollowCamera'
+import { WheelDust } from './WheelDust'
 
 export function Experience({ quality }: { quality: Quality }) {
   return (
@@ -23,6 +24,7 @@ export function Experience({ quality }: { quality: Quality }) {
         <PlayfulObjects quality={quality} />
         <Car />
       </Physics>
+      <WheelDust quality={quality} />
     </>
   )
 }
