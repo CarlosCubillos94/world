@@ -30,12 +30,26 @@ export type Zone = {
   angle: number
 }
 
-function polar(radius: number, angle: number): [number, number, number] {
-  return [radius * Math.cos(angle), 0, radius * Math.sin(angle)]
+function at(x: number, z: number): [number, number, number] {
+  return [x, 0, z]
 }
 
-const EXP_R = 20
-const EXP_ANGLES = [0.12, 0.64, 1.16, 1.68, 2.2] as const
+function faceToward(from: [number, number, number], to: [number, number, number]) {
+  return Math.atan2(to[2] - from[2], to[0] - from[0])
+}
+
+const PATH_START = at(5, 0)
+const PUCV = at(18, 4)
+const WITI = at(16, 18)
+const TELEFONICA = at(2, 26)
+const FREELANCE = at(-14, 22)
+const BCTECH = at(-22, 8)
+const GYM = at(18, -12)
+const FYNN = at(4, -18)
+const REFLEX = at(-10, -18)
+const VALORANT = at(-22, -12)
+const ABOUT = at(-8, 6)
+const CONTACT = at(0, -6)
 
 export const zones: Zone[] = [
   {
@@ -45,8 +59,8 @@ export const zones: Zone[] = [
     links: [],
     accent: '#6d4c41',
     banner: '#8d6e63',
-    position: polar(EXP_R, EXP_ANGLES[0]),
-    angle: EXP_ANGLES[0],
+    position: PUCV,
+    angle: faceToward(PATH_START, PUCV),
   },
   {
     id: 'witi',
@@ -55,8 +69,8 @@ export const zones: Zone[] = [
     links: [],
     accent: '#1565c0',
     banner: '#1e88e5',
-    position: polar(EXP_R, EXP_ANGLES[1]),
-    angle: EXP_ANGLES[1],
+    position: WITI,
+    angle: faceToward(PUCV, WITI),
   },
   {
     id: 'telefonica',
@@ -65,8 +79,8 @@ export const zones: Zone[] = [
     links: [],
     accent: '#0d47a1',
     banner: '#1565c0',
-    position: polar(EXP_R, EXP_ANGLES[2]),
-    angle: EXP_ANGLES[2],
+    position: TELEFONICA,
+    angle: faceToward(WITI, TELEFONICA),
   },
   {
     id: 'freelance',
@@ -75,8 +89,8 @@ export const zones: Zone[] = [
     links: [],
     accent: '#5d4037',
     banner: '#795548',
-    position: polar(EXP_R, EXP_ANGLES[3]),
-    angle: EXP_ANGLES[3],
+    position: FREELANCE,
+    angle: faceToward(TELEFONICA, FREELANCE),
   },
   {
     id: 'bctech',
@@ -85,8 +99,8 @@ export const zones: Zone[] = [
     links: [],
     accent: '#2e7d32',
     banner: '#43a047',
-    position: polar(EXP_R, EXP_ANGLES[4]),
-    angle: EXP_ANGLES[4],
+    position: BCTECH,
+    angle: faceToward(FREELANCE, BCTECH),
   },
   {
     id: 'gymflow',
@@ -106,8 +120,8 @@ export const zones: Zone[] = [
     ],
     accent: '#e85d04',
     banner: '#f48c06',
-    position: polar(12, 3.35),
-    angle: 3.35,
+    position: GYM,
+    angle: faceToward([0, 0, 0], GYM),
   },
   {
     id: 'fynn',
@@ -122,8 +136,8 @@ export const zones: Zone[] = [
     ],
     accent: '#2d6a4f',
     banner: '#40916c',
-    position: polar(12, 4.0),
-    angle: 4.0,
+    position: FYNN,
+    angle: faceToward([0, 0, 0], FYNN),
   },
   {
     id: 'reflex',
@@ -132,8 +146,8 @@ export const zones: Zone[] = [
     links: [],
     accent: '#7b2cbf',
     banner: '#9d4edd',
-    position: polar(12, 4.65),
-    angle: 4.65,
+    position: REFLEX,
+    angle: faceToward([0, 0, 0], REFLEX),
   },
   {
     id: 'valorant',
@@ -142,8 +156,8 @@ export const zones: Zone[] = [
     links: [],
     accent: '#c1121f',
     banner: '#eb5e28',
-    position: polar(12, 5.25),
-    angle: 5.25,
+    position: VALORANT,
+    angle: faceToward([0, 0, 0], VALORANT),
   },
   {
     id: 'about',
@@ -158,8 +172,8 @@ export const zones: Zone[] = [
     ],
     accent: '#9c6644',
     banner: '#dda15e',
-    position: [-8, 0, -9],
-    angle: Math.PI * 1.15,
+    position: ABOUT,
+    angle: faceToward([0, 0, 0], ABOUT),
   },
   {
     id: 'contact',
@@ -183,13 +197,13 @@ export const zones: Zone[] = [
     ],
     accent: '#1d3557',
     banner: '#457b9d',
-    position: polar(22, 2.62),
-    angle: 2.62,
+    position: CONTACT,
+    angle: faceToward([0, 0, 0], CONTACT),
   },
 ]
 
 export const experiencePath: [number, number, number][] = [
-  [5, 0, 0],
+  PATH_START,
   ...zones.filter((zone) => zone.kind === 'experience').map((zone) => zone.position),
 ]
 

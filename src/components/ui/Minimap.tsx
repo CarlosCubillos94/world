@@ -3,7 +3,7 @@ import { experiencePath, zones } from '../../data/content'
 import { playerPose } from '../../state/game'
 
 const SIZE = 128
-const WORLD = 48
+const WORLD = 56
 
 export function Minimap() {
   const canvas = useRef<HTMLCanvasElement>(null)
