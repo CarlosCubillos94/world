@@ -1,6 +1,7 @@
 import { useFrame } from '@react-three/fiber'
 import { useRef } from 'react'
 import { Vector3 } from 'three'
+import { zones } from '../../data/content'
 import { playerPose, useGame } from '../../state/game'
 import { playerVisual } from './Car'
 
@@ -9,15 +10,29 @@ const _look = new Vector3()
 const _lookSmooth = new Vector3()
 const _pos = new Vector3()
 
-const frontView =
-  typeof window !== 'undefined' &&
-  new URLSearchParams(window.location.search).get('front') === '1'
+const search =
+  typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null
+const frontView = search?.get('front') === '1'
+const stopZone = search?.get('stop')
+const framedStop = stopZone ? zones.find((zone) => zone.id === stopZone) : undefined
 
 export function FollowCamera() {
   const entered = useGame((s) => s.entered)
   const ready = useRef(false)
 
   useFrame((state, dt) => {
+    if (framedStop && entered) {
+      const [x, , z] = framedStop.position
+      const yaw = framedStop.angle
+      state.camera.position.set(
+        x - Math.cos(yaw) * 7.4 + Math.sin(yaw) * 2.6,
+        4.5,
+        z - Math.sin(yaw) * 7.4 - Math.cos(yaw) * 2.6,
+      )
+      state.camera.lookAt(x, 1.25, z)
+      return
+    }
+
     if (frontView && entered) {
       const vis = playerVisual.current
       if (vis) vis.getWorldPosition(_pos)

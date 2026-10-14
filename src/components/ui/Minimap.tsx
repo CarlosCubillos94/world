@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react'
-import { zones } from '../../data/content'
+import { experiencePath, zones } from '../../data/content'
 import { playerPose } from '../../state/game'
 
 const SIZE = 128
-const WORLD = 40
+const WORLD = 48
 
 export function Minimap() {
   const canvas = useRef<HTMLCanvasElement>(null)
@@ -30,17 +30,21 @@ export function Minimap() {
         SIZE / 2 + (z / WORLD) * (SIZE / 2 - 10),
       ]
 
-      ctx.strokeStyle = 'rgba(196, 138, 88, 0.7)'
-      ctx.lineWidth = 6
+      ctx.strokeStyle = 'rgba(232, 93, 4, 0.85)'
+      ctx.lineWidth = 3
       ctx.beginPath()
-      ctx.arc(SIZE / 2, SIZE / 2, (16 / WORLD) * (SIZE / 2 - 10), 0, Math.PI * 2)
+      experiencePath.forEach((point, i) => {
+        const [px, pz] = to(point[0], point[2])
+        if (i === 0) ctx.moveTo(px, pz)
+        else ctx.lineTo(px, pz)
+      })
       ctx.stroke()
 
       for (const zone of zones) {
         const [px, pz] = to(zone.position[0], zone.position[2])
         ctx.fillStyle = zone.accent
         ctx.beginPath()
-        ctx.arc(px, pz, 4, 0, Math.PI * 2)
+        ctx.arc(px, pz, zone.kind === 'experience' ? 5 : 3.5, 0, Math.PI * 2)
         ctx.fill()
       }
 

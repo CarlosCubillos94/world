@@ -188,6 +188,75 @@ function iconFor(zone: Zone) {
           </mesh>
         </group>
       )
+    case 'pucv':
+      return (
+        <group>
+          <mesh position={[-0.12, 0.02, 0]} rotation={[0, 0, 0.35]}>
+            <boxGeometry args={[0.42, 0.08, 0.32]} />
+            <meshStandardMaterial color="#fff6ea" flatShading />
+          </mesh>
+          <mesh position={[0.12, 0.02, 0]} rotation={[0, 0, -0.35]}>
+            <boxGeometry args={[0.42, 0.08, 0.32]} />
+            <meshStandardMaterial color="#f4e2c0" flatShading />
+          </mesh>
+          <mesh position={[0, 0.22, 0]}>
+            <boxGeometry args={[0.18, 0.28, 0.18]} />
+            <meshStandardMaterial color="#6d4c41" flatShading />
+          </mesh>
+        </group>
+      )
+    case 'witi':
+      return (
+        <group>
+          <mesh>
+            <boxGeometry args={[0.32, 0.58, 0.08]} />
+            <meshStandardMaterial color="#1e88e5" flatShading />
+          </mesh>
+          <mesh position={[0, 0.02, 0.05]}>
+            <boxGeometry args={[0.22, 0.38, 0.02]} />
+            <meshStandardMaterial color="#bbdefb" />
+          </mesh>
+        </group>
+      )
+    case 'telefonica':
+      return (
+        <group rotation={[0.2, 0.4, 0.1]}>
+          <mesh position={[0, 0.08, 0]}>
+            <torusGeometry args={[0.16, 0.045, 6, 10]} />
+            <meshStandardMaterial color="#ffc107" metalness={0.45} roughness={0.35} />
+          </mesh>
+          <mesh position={[0.22, -0.12, 0]} rotation={[0, 0, 1.1]}>
+            <boxGeometry args={[0.36, 0.07, 0.07]} />
+            <meshStandardMaterial color="#ffc107" metalness={0.45} roughness={0.35} />
+          </mesh>
+        </group>
+      )
+    case 'freelance':
+      return (
+        <group>
+          <mesh position={[0, 0.02, 0]}>
+            <boxGeometry args={[0.7, 0.06, 0.44]} />
+            <meshStandardMaterial color="#5d4037" flatShading />
+          </mesh>
+          <mesh position={[0, 0.12, 0.02]}>
+            <boxGeometry args={[0.58, 0.36, 0.04]} />
+            <meshStandardMaterial color="#90caf9" flatShading />
+          </mesh>
+        </group>
+      )
+    case 'bctech':
+      return (
+        <group>
+          <mesh position={[0, 0.18, 0]}>
+            <boxGeometry args={[0.5, 0.62, 0.36]} />
+            <meshStandardMaterial color="#43a047" flatShading />
+          </mesh>
+          <mesh position={[0, 0.18, 0.2]}>
+            <boxGeometry args={[0.22, 0.28, 0.04]} />
+            <meshStandardMaterial color="#c8e6c9" />
+          </mesh>
+        </group>
+      )
     default:
       return null
   }

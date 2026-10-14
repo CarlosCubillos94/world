@@ -11,7 +11,7 @@ import {
   SphereGeometry,
 } from 'three'
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js'
-import { zones } from '../../data/content'
+import { nearZoneOrPath } from '../../data/content'
 import type { Quality } from '../../lib/quality'
 import { mulberry32 } from '../../lib/random'
 import { bloomField } from './Ground'
@@ -21,10 +21,7 @@ const FLOWER_COLORS = ['#e0488a', '#f2c14e', '#7b5ea7', '#fff1d6', '#ff7a3d', '#
 function isClear(x: number, z: number) {
   const r = Math.hypot(x, z)
   if (r < 6) return false
-  if (Math.abs(r - 16) < 3.4) return false
-  for (const zone of zones) {
-    if (Math.hypot(x - zone.position[0], z - zone.position[2]) < 5) return false
-  }
+  if (nearZoneOrPath(x, z, 6.5)) return false
   return r < 37 && r > 7
 }
 
@@ -284,7 +281,7 @@ export function Landscape({ quality }: { quality: Quality }) {
       const z = (rng() - 0.5) * 70
       const r = Math.hypot(x, z)
       if (r < 4.2 || r > 36) continue
-      if (Math.abs(r - 16) < 2.2) continue
+      if (nearZoneOrPath(x, z, 3.6)) continue
       if (bloomField(x, z) < 0.12 && rng() > 0.2) continue
       const s = 0.42 + rng() * 0.46
       const tall = rng() > 0.62

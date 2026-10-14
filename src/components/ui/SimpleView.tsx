@@ -34,41 +34,54 @@ export function SimpleView() {
         </div>
       </header>
 
-      <section className="simple-grid" aria-label={ui.simpleSection}>
-        {zones.map((zone) => {
-          const local = ui.zones[zone.id]
-          return (
-            <article key={zone.id} className="simple-card" style={{ ['--accent' as string]: zone.accent }}>
-              <p className="postcard-kicker">{local.kicker}</p>
-              <h2>{local.title}</h2>
-              {local.description.split('\n\n').map((para) => (
-                <p key={para.slice(0, 24)}>{para}</p>
-              ))}
-              {zone.tech.length > 0 && (
-                <ul className="tech">
-                  {zone.tech.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              )}
-              {zone.links.length > 0 && (
-                <div className="postcard-links">
-                  {zone.links.map((link) => (
-                    <a
-                      key={link.href + link.id}
-                      href={link.href}
-                      target={link.external ? '_blank' : undefined}
-                      rel={link.external ? 'noreferrer' : undefined}
-                    >
-                      {local.linkLabels[link.id] ?? link.id}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </article>
-          )
-        })}
-      </section>
+      {(
+        [
+          ['experience', ui.experienceSection],
+          ['project', ui.projectsSection],
+          ['note', ui.notesSection],
+        ] as const
+      ).map(([kind, heading]) => (
+        <section key={kind} className="simple-block" aria-label={heading}>
+          <h2 className="simple-heading">{heading}</h2>
+          <div className="simple-grid">
+            {zones
+              .filter((zone) => zone.kind === kind)
+              .map((zone) => {
+                const local = ui.zones[zone.id]
+                return (
+                  <article key={zone.id} className="simple-card" style={{ ['--accent' as string]: zone.accent }}>
+                    <p className="postcard-kicker">{local.kicker}</p>
+                    <h3>{local.title}</h3>
+                    {local.description.split('\n\n').map((para) => (
+                      <p key={para.slice(0, 24)}>{para}</p>
+                    ))}
+                    {zone.tech.length > 0 && (
+                      <ul className="tech">
+                        {zone.tech.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    )}
+                    {zone.links.length > 0 && (
+                      <div className="postcard-links">
+                        {zone.links.map((link) => (
+                          <a
+                            key={link.href + link.id}
+                            href={link.href}
+                            target={link.external ? '_blank' : undefined}
+                            rel={link.external ? 'noreferrer' : undefined}
+                          >
+                            {local.linkLabels[link.id] ?? link.id}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </article>
+                )
+              })}
+          </div>
+        </section>
+      ))}
     </main>
   )
 }

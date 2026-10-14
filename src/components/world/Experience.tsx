@@ -5,6 +5,7 @@ import { Landscape } from './Landscape'
 import { Lights } from './Lights'
 import { PlayfulObjects } from './PlayfulObjects'
 import { SkyDome } from './SkyDome'
+import { ExperiencePath } from './ExperiencePath'
 import { Stands } from './Stands'
 import { Car } from './Car'
 import { FollowCamera } from './FollowCamera'
@@ -20,6 +21,7 @@ export function Experience({ quality }: { quality: Quality }) {
         <Ground />
         <Bounds />
         <Landscape quality={quality} />
+        <ExperiencePath />
         <Stands />
         <PlayfulObjects quality={quality} />
         <Car />

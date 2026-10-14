@@ -57,11 +57,6 @@ export function Ground() {
         <meshStandardMaterial vertexColors flatShading roughness={0.95} metalness={0} />
       </mesh>
 
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]} receiveShadow>
-        <ringGeometry args={[14.2, 17.8, 64]} />
-        <meshStandardMaterial color="#c9a06e" roughness={1} metalness={0} />
-      </mesh>
-
       <group position={[0, 0.03, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <mesh>
           <ringGeometry args={[2.15, 2.4, 32]} />

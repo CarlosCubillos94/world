@@ -6,6 +6,7 @@ import { Hud } from './components/ui/Hud'
 import { LoadingScreen } from './components/ui/LoadingScreen'
 import { SimpleView } from './components/ui/SimpleView'
 import { bindKeyboard } from './lib/input'
+import { zones, type ZoneId } from './data/content'
 import { detectWebGL, getQuality } from './lib/quality'
 import { gameStore, useGame } from './state/game'
 
@@ -23,8 +24,14 @@ export default function App() {
     if (params.get('simple') === '1' || !webgl) {
       gameStore.set({ simple: true })
     }
-    if (params.get('enter') === '1' && webgl) {
-      gameStore.set({ entered: true, muted: true })
+    if ((params.get('enter') === '1' || params.get('stop')) && webgl) {
+      const stop = params.get('stop')
+      const zone = zones.find((item) => item.id === stop)
+      gameStore.set({
+        entered: true,
+        muted: true,
+        activeZone: (zone?.id ?? null) as ZoneId | null,
+      })
     }
   }, [])
 

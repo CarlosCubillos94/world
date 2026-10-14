@@ -28,6 +28,10 @@ export type UiCopy = {
   back3d: string
   simpleIntro: string
   simpleSection: string
+  experienceSection: string
+  projectsSection: string
+  notesSection: string
+  experienceSign: string
   close: string
   closeAria: string
   keepExploring: string
@@ -48,21 +52,25 @@ export const copy: Record<Lang, UiCopy> = {
       'Conduce un G-Wagon por un desierto florido low-poly en Vallenar y conoce el trabajo de Carlos Cubillos, desarrollador React y React Native.',
     place: 'Vallenar, Chile',
     role: 'Desarrollador React / React Native',
-    hint: 'Conduce por el desierto florido — párate en un stand para abrir una ficha.',
+    hint: 'Sigue la ruta de Experiencia — una parada por cada etapa — y los stands de proyectos.',
     ready: 'El desierto florido está listo.',
     loading: (pct) => `Cargando ${pct}%`,
     enter: 'Entrar al desierto florido',
     skip: 'Ir a la versión simple',
     keys: 'WASD o flechas para conducir · Espacio para frenar · R para volver al inicio',
-    hudTag: 'Recorre los stands · Desierto florido',
+    hudTag: 'Ruta de experiencia · Desierto florido',
     soundOff: 'Sin sonido',
     soundOn: 'Con sonido',
     simple: 'Versión simple',
     classic: 'Portafolio clásico',
     back3d: 'Volver al mundo 3D',
     simpleIntro:
-      'Notas de campo del desierto florido: los mismos proyectos e historia que encontrarías conduciendo el G-Wagon, ordenados para teclado, lector de pantalla o un notebook cansado.',
-    simpleSection: 'Proyectos y notas',
+      'La misma ruta que el G-Wagon: primero la experiencia laboral, en orden, y después los proyectos. Hecho para teclado, lector de pantalla o un notebook cansado.',
+    simpleSection: 'Experiencia y proyectos',
+    experienceSection: 'Experiencia laboral',
+    projectsSection: 'Proyectos',
+    notesSection: 'Sobre mí y contacto',
+    experienceSign: 'Experiencia',
     close: 'Cerrar',
     closeAria: 'Cerrar ficha',
     keepExploring: 'Aléjate para seguir explorando',
@@ -74,6 +82,38 @@ export const copy: Record<Lang, UiCopy> = {
     langEn: 'EN',
     langAria: 'Idioma',
     zones: {
+      pucv: {
+        title: 'PUCV',
+        kicker: 'Experiencia · desde ~2014',
+        description:
+          'Ingeniería en Informática en la Pontificia Universidad Católica de Valparaíso. Ahí empecé a programar, hacia 2014. En la universidad fundé Reflex Chile, una app en React Native que ganó el fondo “Emprende tu Tesis” de la PUCV.',
+        linkLabels: {},
+      },
+      witi: {
+        title: 'WiTi',
+        kicker: 'Experiencia · desde ago. 2021',
+        description: 'En WiTi me dedico al desarrollo mobile con React Native.',
+        linkLabels: {},
+      },
+      telefonica: {
+        title: 'Telefónica',
+        kicker: 'Experiencia · oct. 2022 – jun. 2026',
+        description:
+          'En Telefónica ayudé a migrar Mi Movistar a React Native. Construí KeyPass, un módulo de validación de identidad para transacciones digitales usado en Latinoamérica. Fui Tech Lead de un equipo de 8 personas: lideré el upgrade de React Native e implementé SSO/Auth.',
+        linkLabels: {},
+      },
+      freelance: {
+        title: 'Freelance',
+        kicker: 'Experiencia',
+        description: 'Trabajo freelance con un cliente de Estados Unidos.',
+        linkLabels: {},
+      },
+      bctech: {
+        title: 'BC Tecnología',
+        kicker: 'Experiencia · desde 3 ago. 2026',
+        description: 'Mobile Developer en BC Tecnología, desde el 3 de agosto de 2026.',
+        linkLabels: {},
+      },
       gymflow: {
         title: 'GymFlow',
         kicker: 'Proyecto',
@@ -109,7 +149,7 @@ export const copy: Record<Lang, UiCopy> = {
         title: 'Sobre mí',
         kicker: 'Carlos Cubillos',
         description:
-          'Desarrollador React y React Native de Vallenar, Chile. Cinco años creando productos con React Native y Expo. Antes lideré un equipo de ocho personas. En Telefónica construí el módulo de identidad KeyPass y ayudé a migrar Mi Movistar a React Native. También obtuve el 2.° lugar en NTT Data Hack The Challenge.\n\nIngeniería de Ejecución en Informática — PUCV, 2018–2022.',
+          'Desarrollador React y React Native de Vallenar, Chile. Cinco años con React Native y Expo, además de React, Next.js, Redux y Jest/RTL. Tres apps publicadas en App Store y Google Play.\n\nFui Tech Lead de un equipo de 8 en Telefónica, donde construí KeyPass y ayudé a migrar Mi Movistar a React Native. Ingeniería en Informática en la PUCV; empecé a programar hacia 2014.',
         linkLabels: { classic: 'Portafolio clásico' },
       },
       contact: {
@@ -131,21 +171,25 @@ export const copy: Record<Lang, UiCopy> = {
       'Drive a G-Wagon through a low-poly flowering desert in Vallenar and discover the work of Carlos Cubillos, a React and React Native developer.',
     place: 'Vallenar, Chile',
     role: 'React / React Native developer',
-    hint: 'Drive the flowering desert — park on a stand to open a card.',
+    hint: 'Follow the Experience route — one stop per chapter — plus the project stands.',
     ready: 'The flowering desert is ready.',
     loading: (pct) => `Loading ${pct}%`,
     enter: 'Enter the flowering desert',
     skip: 'Skip to simple version',
     keys: 'WASD or arrows to drive · Space to brake · R to respawn',
-    hudTag: 'Drive the stands · Flowering desert',
+    hudTag: 'Experience route · Flowering desert',
     soundOff: 'Sound off',
     soundOn: 'Sound on',
     simple: 'Simple version',
     classic: 'Classic portfolio',
     back3d: 'Back to 3D world',
     simpleIntro:
-      'Field notes from the flowering desert — the same projects and story you would find by driving the G-Wagon, laid out for a keyboard, a screen reader, or a tired laptop.',
-    simpleSection: 'Projects and notes',
+      'The same route as the G-Wagon: work experience first, in order, then the projects. Laid out for a keyboard, a screen reader, or a tired laptop.',
+    simpleSection: 'Experience and projects',
+    experienceSection: 'Work experience',
+    projectsSection: 'Projects',
+    notesSection: 'About and contact',
+    experienceSign: 'Experience',
     close: 'Close',
     closeAria: 'Close card',
     keepExploring: 'Drive away to keep exploring',
@@ -157,6 +201,38 @@ export const copy: Record<Lang, UiCopy> = {
     langEn: 'EN',
     langAria: 'Language',
     zones: {
+      pucv: {
+        title: 'PUCV',
+        kicker: 'Experience · since ~2014',
+        description:
+          'Ingeniería en Informática at Pontificia Universidad Católica de Valparaíso. That’s where I started programming, around 2014. During university I founded Reflex Chile, a React Native app that won PUCV’s “Emprende tu Tesis” fund.',
+        linkLabels: {},
+      },
+      witi: {
+        title: 'WiTi',
+        kicker: 'Experience · since Aug 2021',
+        description: 'At WiTi I work on mobile development with React Native.',
+        linkLabels: {},
+      },
+      telefonica: {
+        title: 'Telefónica',
+        kicker: 'Experience · Oct 2022 – Jun 2026',
+        description:
+          'At Telefónica I helped migrate Mi Movistar to React Native. I built KeyPass, an identity-validation module for digital transactions used across Latin America. As Tech Lead of a team of 8 I led a React Native upgrade and implemented SSO/Auth.',
+        linkLabels: {},
+      },
+      freelance: {
+        title: 'Freelance',
+        kicker: 'Experience',
+        description: 'Freelance work with a client in the United States.',
+        linkLabels: {},
+      },
+      bctech: {
+        title: 'BC Tecnología',
+        kicker: 'Experience · since 3 Aug 2026',
+        description: 'Mobile Developer at BC Tecnología, since 3 August 2026.',
+        linkLabels: {},
+      },
       gymflow: {
         title: 'GymFlow',
         kicker: 'Project',
@@ -192,7 +268,7 @@ export const copy: Record<Lang, UiCopy> = {
         title: 'About me',
         kicker: 'Carlos Cubillos',
         description:
-          'React and React Native developer from Vallenar, Chile. Five years building products with React Native and Expo. I previously led a team of eight. At Telefónica I built the KeyPass identity module and helped migrate Mi Movistar to React Native. I also took 2nd place at NTT Data Hack The Challenge.\n\nIngeniería de Ejecución en Informática — PUCV, 2018–2022.',
+          'React and React Native developer from Vallenar, Chile. Five years with React Native and Expo, plus React, Next.js, Redux, and Jest/RTL. Three apps published on the App Store and Google Play.\n\nI was Tech Lead of a team of 8 at Telefónica, where I built KeyPass and helped migrate Mi Movistar to React Native. Ingeniería en Informática at PUCV; I started programming around 2014.',
         linkLabels: { classic: 'Classic portfolio' },
       },
       contact: {
