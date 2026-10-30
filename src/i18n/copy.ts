@@ -49,9 +49,9 @@ export const copy: Record<Lang, UiCopy> = {
   es: {
     documentTitle: 'Carlos Cubillos — Desierto florido',
     documentDescription:
-      'Conduce un G-Wagon por un desierto florido low-poly en Vallenar y conoce el trabajo de Carlos Cubillos, desarrollador React y React Native.',
+      'Conduce un G-Wagon por un desierto florido low-poly en Vallenar y conoce el trabajo de Carlos Cubillos, desarrollador React, React Native y Shopify.',
     place: 'Vallenar, Chile',
-    role: 'Desarrollador React / React Native',
+    role: 'Senior Mobile & Web Engineer · React / React Native / Shopify',
     hint: 'Sigue la ruta de Experiencia — una parada por cada etapa — y los stands de proyectos.',
     ready: 'El desierto florido está listo.',
     loading: (pct) => `Cargando ${pct}%`,
@@ -86,7 +86,7 @@ export const copy: Record<Lang, UiCopy> = {
         title: 'PUCV',
         kicker: 'Experiencia · desde ~2014',
         description:
-          'Ingeniería en Informática en la Pontificia Universidad Católica de Valparaíso. Ahí empecé a programar, hacia 2014. En la universidad fundé Reflex Chile, una app en React Native que ganó el fondo “Emprende tu Tesis” de la PUCV.',
+          'Ingeniería en Informática en la Pontificia Universidad Católica de Valparaíso. Ahí empecé a programar, hacia 2014. En la universidad fundé Reflex Chile, una startup que ganó el fondo “Emprende tu Tesis” de la PUCV.',
         linkLabels: {},
       },
       witi: {
@@ -103,9 +103,9 @@ export const copy: Record<Lang, UiCopy> = {
         linkLabels: {},
       },
       freelance: {
-        title: 'Freelance',
+        title: 'Shopify',
         kicker: 'Experiencia',
-        description: 'Trabajo freelance con un cliente de Estados Unidos.',
+        description: 'Dos años desarrollando en Shopify: temas Liquid / Online Store 2.0, Hydrogen y Checkout UI Extensions.',
         linkLabels: {},
       },
       bctech: {
@@ -135,7 +135,7 @@ export const copy: Record<Lang, UiCopy> = {
         title: 'Reflex Chile',
         kicker: 'Proyecto',
         description:
-          'Una app en React Native que fundé, con Firebase. Reflex Chile ganó el fondo “Emprende tu Tesis” de la PUCV: una tesis que salió de la sala y se convirtió en un producto real.',
+          'Startup que fundé como proyecto de tesis y que ganó el fondo “Emprende tu Tesis” de la PUCV. Fui el único responsable técnico del MVP: app en React Native y web en Next.js, con PostgreSQL/Prisma y autenticación JWT.',
         linkLabels: {},
       },
       valorant: {
@@ -156,7 +156,7 @@ export const copy: Record<Lang, UiCopy> = {
         title: 'Contacto',
         kicker: 'Hablemos',
         description:
-          'Abierto a roles remotos y contratos con equipos de cualquier país. Pasa en auto o usa los enlaces: GitHub, el portafolio clásico y tu CV.',
+          'Abierto a roles remotos y contratos con equipos de cualquier país. Pasa en auto o usa los enlaces: GitHub, el portafolio clásico y mi CV.',
         linkLabels: {
           github: 'GitHub',
           portfolio: 'Portafolio',
@@ -168,9 +168,9 @@ export const copy: Record<Lang, UiCopy> = {
   en: {
     documentTitle: 'Carlos Cubillos — Flowering desert',
     documentDescription:
-      'Drive a G-Wagon through a low-poly flowering desert in Vallenar and discover the work of Carlos Cubillos, a React and React Native developer.',
+      'Drive a G-Wagon through a low-poly flowering desert in Vallenar and discover the work of Carlos Cubillos, a React, React Native and Shopify developer.',
     place: 'Vallenar, Chile',
-    role: 'React / React Native developer',
+    role: 'Senior Mobile & Web Engineer · React / React Native / Shopify',
     hint: 'Follow the Experience route — one stop per chapter — plus the project stands.',
     ready: 'The flowering desert is ready.',
     loading: (pct) => `Loading ${pct}%`,
@@ -205,7 +205,7 @@ export const copy: Record<Lang, UiCopy> = {
         title: 'PUCV',
         kicker: 'Experience · since ~2014',
         description:
-          'Ingeniería en Informática at Pontificia Universidad Católica de Valparaíso. That’s where I started programming, around 2014. During university I founded Reflex Chile, a React Native app that won PUCV’s “Emprende tu Tesis” fund.',
+          'Ingeniería en Informática at Pontificia Universidad Católica de Valparaíso. That’s where I started programming, around 2014. During university I founded Reflex Chile, a startup that won PUCV’s “Emprende tu Tesis” fund.',
         linkLabels: {},
       },
       witi: {
@@ -222,9 +222,9 @@ export const copy: Record<Lang, UiCopy> = {
         linkLabels: {},
       },
       freelance: {
-        title: 'Freelance',
+        title: 'Shopify',
         kicker: 'Experience',
-        description: 'Freelance work with a client in the United States.',
+        description: 'Two years of Shopify development: Liquid / Online Store 2.0 themes, Hydrogen and Checkout UI Extensions.',
         linkLabels: {},
       },
       bctech: {
@@ -254,7 +254,7 @@ export const copy: Record<Lang, UiCopy> = {
         title: 'Reflex Chile',
         kicker: 'Project',
         description:
-          'A React Native app I founded, backed by Firebase. Reflex Chile won PUCV’s “Emprende tu Tesis” fund — a thesis that left the classroom and shipped as a real product.',
+          'A startup I founded as my thesis project; it won PUCV’s “Emprende tu Tesis” fund. I was the sole technical lead of the MVP: a React Native app and a Next.js web, with PostgreSQL/Prisma and JWT auth.',
         linkLabels: {},
       },
       valorant: {
@@ -275,7 +275,7 @@ export const copy: Record<Lang, UiCopy> = {
         title: 'Contact',
         kicker: 'Let’s talk',
         description:
-          'Open to remote roles and contracts with teams worldwide. Drive by, or just use the links — GitHub, the classic portfolio, and a CV slot ready for the file.',
+          'Open to remote roles and contracts with teams worldwide. Drive by, or just use the links — GitHub, the classic portfolio and my CV.',
         linkLabels: {
           github: 'GitHub',
           portfolio: 'Portfolio',

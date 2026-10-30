@@ -85,7 +85,7 @@ export const zones: Zone[] = [
   {
     id: 'freelance',
     kind: 'experience',
-    tech: ['React Native', 'React'],
+    tech: ['Shopify', 'Liquid', 'Hydrogen', 'Checkout UI Extensions'],
     links: [],
     accent: '#5d4037',
     banner: '#795548',
@@ -142,7 +142,7 @@ export const zones: Zone[] = [
   {
     id: 'reflex',
     kind: 'project',
-    tech: ['React Native', 'Firebase', 'TypeScript'],
+    tech: ['React Native', 'Next.js', 'PostgreSQL', 'Prisma', 'JWT'],
     links: [],
     accent: '#7b2cbf',
     banner: '#9d4edd',
